@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "ab323199-9200-43a7-a035-eeb049067458"
+      }
+    },
+    "android": {
+      "package": "com.joeldev1903.pedidosbackend"
+    }
+  }
+}
