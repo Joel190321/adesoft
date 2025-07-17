@@ -6,6 +6,7 @@ import { SettingsProvider } from '@/hooks/useSettings';
 import { PaperProvider, MD3LightTheme } from 'react-native-paper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { initializeStorage } from '@/lib/storage';
+import { Platform } from 'react-native';
 
 const theme = {
   ...MD3LightTheme,
@@ -21,8 +22,10 @@ export default function RootLayout() {
   useFrameworkReady();
 
   useEffect(() => {
-    // Initialize storage on app start
-    initializeStorage();
+    // Initialize storage on app start (only for web)
+    if (Platform.OS === 'web') {
+      initializeStorage();
+    }
   }, []);
 
   return (
@@ -31,6 +34,8 @@ export default function RootLayout() {
         <SettingsProvider>
           <>
             <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="(tabs)" />
               <Stack.Screen name="+not-found" />
             </Stack>
             <StatusBar style="auto" />

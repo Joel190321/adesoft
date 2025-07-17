@@ -1,7 +1,7 @@
 // Production API client that switches between localStorage and HTTP API
 import { storage } from '../storage';
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000';
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:8081';
 const USE_API = process.env.EXPO_PUBLIC_USE_API === 'true';
 
 class APIClient {

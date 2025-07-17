@@ -3,6 +3,7 @@ import { Client } from '@/types/firebase';
 import ThemedText from '../ui/ThemedText';
 import Card from '../ui/Card';
 import { SearchInput } from '../ui/Input';
+import { useState } from 'react';
 import Button from '../ui/Button';
 
 interface ClientSearchModalProps {

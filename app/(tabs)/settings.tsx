@@ -84,7 +84,9 @@ function SettingsScreen() {
       const event = new CustomEvent('settingsUpdated', { 
         detail: settings 
       });
-      window.dispatchEvent(event);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(event);
+      }
 
       showToast('Configuración guardada exitosamente', 'success');
     } catch (error) {
@@ -277,14 +279,6 @@ function SettingsScreen() {
           />
 
           <Button
-            title="Acceso Administrativo"
-            variant="outline"
-            onPress={() => router.push('/(admin)')}
-            icon={<Ionicons name="shield-outline" size={18} color="#3498db" />}
-            style={styles.adminButton}
-          />
-
-          <Button
             title="Cerrar Sesión"
             variant="danger"
             onPress={handleLogout}
@@ -356,9 +350,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   saveButton: {
-    marginBottom: 12,
-  },
-  adminButton: {
     marginBottom: 12,
   },
   logoutButton: {

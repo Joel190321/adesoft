@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, ImageBackground } from 'react-native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, View, SafeAreaView, ImageBackground, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { VendorsAPI } from '@/lib/api/vendors';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,6 +15,27 @@ function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
 
+  useEffect(() => {
+    checkExistingAuth();
+  }, []);
+
+  const checkExistingAuth = async () => {
+    try {
+      const currentVendor = await AsyncStorage.getItem('currentVendor');
+      if (currentVendor) {
+        // Si ya hay un vendedor logueado, ir directamente a las tabs
+        if (Platform.OS === 'web') {
+          router.replace('/(tabs)');
+        } else {
+          // Para móvil, usar push en lugar de replace
+          router.push('/(tabs)');
+        }
+      }
+    } catch (error) {
+      console.error('Error checking existing auth:', error);
+    }
+  };
+
   const handleLogin = async () => {
     if (!userId || !name) {
       setError('Por favor complete todos los campos');
@@ -29,7 +50,18 @@ function LoginScreen() {
       
       if (vendor) {
         await AsyncStorage.setItem('currentVendor', JSON.stringify(vendor));
-        router.replace('/(tabs)');
+        
+        // Navegación específica para móvil
+        if (Platform.OS === 'web') {
+          router.replace('/(tabs)');
+        } else {
+          // Para móvil, usar push y luego reset
+          router.push('/(tabs)');
+          // Limpiar el stack de navegación
+          setTimeout(() => {
+            router.dismissAll();
+          }, 100);
+        }
         return;
       }
 
