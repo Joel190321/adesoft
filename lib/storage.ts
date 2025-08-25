@@ -1,77 +1,141 @@
 // Web-compatible storage layer using localStorage
 // This simulates a database for development purposes
 
-export interface StorageData {
-  clients: any[];
-  products: any[];
-  vendors: any[];
-  transactions: any[];
-  payments: any[];
-  settings: any;
-  admins: any[];
+// Prisma-based types
+export interface Producto {
+  IdProducto: number;
+  CodigoP: string;
+  ReferenciaP?: string;
+  PresentacionP?: string;
+  NombreP: string;
+  PrecioP?: number;
+  ImpuestoP?: number;
+  ExentoP?: number;
+  ExistenciaP?: number;
+  GrupoP: string;
+  FechaSinc?: string;
 }
 
-const STORAGE_KEY = 'pedidos_adasoft_data';
+export interface Vendedor {
+  IdVendedor: string;
+  CedulaV?: string;
+  NombreV: string;
+  TelefonoV?: string;
+  IdRuta?: string;
+  FechaSinc?: string;
+}
+
+export interface Cliente {
+  IdCliente: string;
+  NombreC: string;
+  Rnc?: string;
+  TelefonoC?: string;
+  DireccionC1?: string;
+  DireccionC2?: string;
+  ClienteExento?: number;
+  BalanceC?: number;
+  IdVendedor?: string;
+  FechaSinc?: string;
+}
+
+export interface Orden {
+  IdOrden: number;
+  Documento: string;
+  Fecha: string;
+  IdCliente: string;
+  IdVendedor: string;
+  Subtotal?: number;
+  Impuesto?: number;
+  ValorImp?: number;
+  Total?: number;
+  Estado?: 'A' | 'P' | 'N';
+  FechaCreacion?: string;
+  FechaSinc?: string;
+}
+
+export interface OrdenItem {
+  IdOrden: number;
+  IdProducto: number;
+  Cantidad?: number;
+  PrecioV?: number;
+  Impuesto?: number;
+}
+
+export interface Config {
+  IdConfig: number;
+  Compania: string;
+  Direccion1?: string;
+  Direccion2?: string;
+  Telefono?: string;
+  Rnc?: string;
+  Email?: string;
+  Impuesto: number;
+  OrdenNo?: string;
+  IngresoNo?: string;
+  Logo?: string;
+  TipoImpuesto?: 'I' | 'A';
+}
+
+export interface Transaccion {
+  IdTransa: number;
+  Documento?: string;
+  Tipo?: 'VE' | 'IN';
+  Fecha: string;
+  FechaCreacion?: string;
+  IdCliente: string;
+  IdVendedor: string;
+  Valor?: number;
+  Pendiente?: number;
+  ValorImp?: number;
+  ReferenciaId?: string;
+  Concepto?: string;
+  FechaSinc?: string;
+}
+
+export interface ReferenciaPago {
+  IdReferencia: number;
+  IdTransa: number;
+  DocumentoIN?: string;
+  DocumentoVE?: string;
+  IdCliente?: string;
+  IdVendedor?: string;
+  ValorPago: number;
+  CreatedAt?: string;
+}
+
+export interface StorageData {
+  productos: Producto[];
+  vendedores: Vendedor[];
+  clientes: Cliente[];
+  ordenes: Orden[];
+  ordenItems: OrdenItem[];
+  configs: Config[];
+  transacciones: Transaccion[];
+  referenciasPago: ReferenciaPago[];
+}
+
+const STORAGE_KEY = 'pedidos_adesoft_data';
 
 // Initialize default data
 const defaultData: StorageData = {
-  clients: [],
-  products: [],
-  vendors: [
-    {
-      id: 'V001',
-      name: 'Juan',
-      lastname: 'Perez',
-      cedula: '00112233445',
-      phone: '555-1111',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 'V002',
-      name: 'Maria',
-      lastname: 'Rodriguez',
-      cedula: '00112233446',
-      phone: '555-2222',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    }
-  ],
-  transactions: [],
-  payments: [],
-  settings: {
-    id: 'global',
-    companyName: 'Mi Empresa',
-    taxRate: 18,
-    defaultCredit: 1000,
-    orderPrefix: 'FA',
-    address: '',
-    phone: '',
-    rnc: '',
-    email: '',
-    logo: '',
-    taxIncluded: false,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  admins: [
-    {
-      id: 'ADMIN',
-      name: 'Administrador',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    }
-  ]
+  productos: [],
+  vendedores: [],
+  clientes: [],
+  ordenes: [],
+  ordenItems: [],
+  configs: [],
+  transacciones: [],
+  referenciasPago: [],
 };
 
-// Storage utilities
+
+// Storage utilities with backend fallback
 export const storage = {
   get(): StorageData {
     try {
       const data = localStorage.getItem(STORAGE_KEY);
       if (data) {
         const parsed = JSON.parse(data);
-        // Ensure all required properties exist
         return {
           ...defaultData,
           ...parsed,
@@ -97,7 +161,25 @@ export const storage = {
     } catch (error) {
       console.error('Error clearing storage:', error);
     }
-  }
+  },
+
+  async getProductos(): Promise<Producto[]> {
+    try {
+      const apiUrl = (await import('@/config')).apiUrl;
+      const res = await fetch(`${apiUrl}productos`);
+      if (!res.ok) throw new Error('Backend error');
+      const productos = await res.json();
+      // Optionally update localStorage
+      const data = storage.get();
+      data.productos = productos;
+      storage.set(data);
+      return productos;
+    } catch (error) {
+      // Fallback to localStorage
+      console.warn('Falling back to localStorage for productos:', error);
+      return storage.get().productos;
+    }
+  },
 };
 
 // Initialize storage with default data if empty

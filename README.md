@@ -1,103 +1,50 @@
-# Pedidos AdaSoft
+# Welcome to your Expo app 👋
 
-Sistema de gestión de pedidos y facturación para vendedores.
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## 🚀 Deployment Options
+## Get started
 
-### Option 1: Web App (Current - localStorage)
-```bash
-npm run build:web
-```
-- Uses browser localStorage
-- Works offline
-- No server required
+1. Install dependencies
 
-### Option 2: Mobile APK + MySQL Backend
+   ```bash
+   npm install
+   ```
 
-#### Backend Setup:
-1. **Setup MySQL Database:**
-```bash
-cd server
-npm install
-mysql -u root -p < scripts/init-database.sql
-```
+2. Start the app
 
-2. **Configure Environment:**
-```bash
-cp .env.example .env
-# Edit .env with your database credentials
-```
+   ```bash
+   npx expo start
+   ```
 
-3. **Start Backend:**
-```bash
-npm run dev  # Development
-npm start    # Production
-```
+In the output, you'll find options to open the app in a
 
-#### Frontend Setup:
-1. **Configure for Production:**
-```bash
-cp .env.production .env
-# Edit EXPO_PUBLIC_API_URL with your server URL
-```
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-2. **Build APK:**
-```bash
-eas build --platform android
-```
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## 📱 Default Credentials
+## Get a fresh project
 
-**Vendedores:**
-- ID: `V001`, Nombre: `Juan`
-- ID: `V002`, Nombre: `Maria`
-
-**Administrador:**
-- ID: `ADMIN`, Nombre: `Administrador`
-
-## 🛠️ Tech Stack
-
-- **Frontend:** React Native + Expo
-- **Backend:** Node.js + Express
-- **Database:** MySQL (Production) / localStorage (Development)
-- **UI:** React Native Paper + Custom Components
-
-## 📊 Features
-
-- ✅ Login system for vendors and admins
-- ✅ Product management with categories
-- ✅ Client management
-- ✅ Order creation and tracking
-- ✅ Invoice generation and printing
-- ✅ Payment receipts
-- ✅ Inventory management
-- ✅ Settings configuration
-- ✅ Tax calculation (ITBIS included/applied)
-
-## 🔧 Development
+When you're ready, run:
 
 ```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for web
-npm run build:web
+npm run reset-project
 ```
 
-## 📦 Production Deployment
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-1. **Deploy Backend:** Upload server folder to your hosting provider
-2. **Configure Database:** Run init-database.sql on your MySQL server
-3. **Build APK:** Use EAS Build with production environment variables
-4. **Test:** Verify API connectivity and data persistence
+## Learn more
 
-## 🔒 Security Notes
+To learn more about developing your project with Expo, look at the following resources:
 
-- All API endpoints should be secured with authentication
-- Use HTTPS in production
-- Validate all input data
-- Implement rate limiting
-- Use environment variables for sensitive data
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+
+## Join the community
+
+Join our community of developers creating universal apps.
+
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

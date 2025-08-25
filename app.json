@@ -1,58 +1,38 @@
 {
   "expo": {
-    "name": "Pedidos AdaSoft",
-    "slug": "pedidos-adasoft",
+    "name": "adesoft-pedidos-app",
+    "slug": "adesoft-pedidos-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "icon": "./assets/images/adesoft-logo.png",
+    "scheme": "adesoftpedidosapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "android": {
-      "package": "com.joeldev1903.pedidosadasoft",
-      "versionCode": 1,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "permissions": [
-        "CAMERA",
-        "WRITE_EXTERNAL_STORAGE",
-        "READ_EXTERNAL_STORAGE",
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-      ]
-    },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.joeldev1903.pedidosadasoft"
+      "backgroundColor": "#ffffff"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adesoft-logo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
-      "output": "single",
-      "favicon": "./assets/images/favicon.png"
+      "output": "static",
+      "favicon": "./assets/images/adesoft-logo.png"
     },
     "plugins": [
       "expo-router",
       [
-        "expo-camera",
+        "expo-splash-screen",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "compileSdkVersion": 35,
-            "targetSdkVersion": 35,
-            "buildToolsVersion": "35.0.0",
-            "kotlinVersion": "2.0.0",
-            "gradleVersion": "8.8"
-          },
-          "ios": {
-            "deploymentTarget": "15.1"
-          }
+          "image": "./assets/images/adesoft-logo.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
         }
       ]
     ],
@@ -60,12 +40,17 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {
-        "origin": false
-      },
+      "router": {},
       "eas": {
-        "projectId": "5b4b0cf6-8808-4d5f-8b7a-042c0f011d5f"
+        "projectId": "3246601c-0ce1-425e-97fd-ca6616c719ff"
       }
+    },
+    "owner": "elamv",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/3246601c-0ce1-425e-97fd-ca6616c719ff"
     }
   }
 }

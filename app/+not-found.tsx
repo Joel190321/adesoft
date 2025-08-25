@@ -1,16 +1,23 @@
 import { Link, Stack } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 
 export default function NotFoundScreen() {
+  useEffect(() => {
+    document.title = 'Adesoft - 404 ';
+  }, []); 
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
-      <View style={styles.container}>
-        <Text style={styles.text}>This screen doesn't exist.</Text>
+      <Stack.Screen options={{ title: '404 Pestaña inexistente', headerShown: false }} />
+      <ThemedView style={styles.container}>
+        <ThemedText type="title">Esta pestaña no existe</ThemedText>
         <Link href="/" style={styles.link}>
-          <Text>Go to home screen!</Text>
+          <ThemedText type="link">Volver al Inicio</ThemedText>
         </Link>
-      </View>
+      </ThemedView>
     </>
   );
 }
@@ -21,10 +28,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 600,
   },
   link: {
     marginTop: 15,
